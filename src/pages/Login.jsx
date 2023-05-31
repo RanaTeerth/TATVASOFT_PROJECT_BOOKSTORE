@@ -2,28 +2,35 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Footer from "../Components/Footer";
 import Header from "../Components/Header";
+import {Button} from "@mui/material";
+
 function Login() {
+  const name = "Teerth";
   return (
-    <div className="text-center">
+    <div className="login">
       <Header />
-      <p className="font-sans text-center font-bold text-2xl text-purple-600">
+      <p >
         Here is The Login Page
       </p>
-      <hr />
+      <p>Welcome {name}</p>  {/* How to add js in html */}
       <br />
-      <Link to={"/"} className="text-xl text-purple-600">
-        Click Here To Go Home
+      <Link to={"/"} className="homelink">Click Here to Go Home page</Link>
+      <br />
+      <br />
+      <Link to={"/product-page"} className="productpagelink">
+        Click Here to Go Product page
       </Link>
       <br />
       <br />
-      <Link to={"/product-page"} className="text-xl text-purple-600">
-        Click Here To Go Product Page
-      </Link>
+
+      <Link to={"/cart-page"} className="cartpagelink">Click Here To Go Cart Page</Link>
       <br />
       <br />
-      <Link to={"/register"} className="text-xl text-purple-600">
-        Click Here To Register
-      </Link>
+      <br />
+
+      <Button variant="text">Text</Button>
+      <Button variant="contained">Contained</Button>
+      <Button variant="outlined">Outlined</Button>      
       <br />
       <br />
       <Footer />

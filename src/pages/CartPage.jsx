@@ -4,16 +4,13 @@ import Footer from "../Components/Footer";
 import Header from "../Components/Header";
 function CartPage() {
   return (
-    <div className="text-center">
+    <div className="cartpage">
       <Header />
-      <p className="font-sans text-center font-bold text-2xl text-green-600">
+      <p>
         This is Cart Page
       </p>
-      <hr />
       <br />
-      <Link to={"/"} className="text-xl text-green-600">
-        Click Here To Go Home
-      </Link>
+      <Link to={"/"} className="homelink">Click Here to Go Home page</Link>
       <br />
       <br />
       <Footer />

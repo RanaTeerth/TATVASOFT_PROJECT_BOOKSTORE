@@ -9,16 +9,11 @@ function ProductPage() {
       <p className="font-sans text-center font-bold text-2xl text-yellow-900">
         Product Page
       </p>
-      <hr />
       <br />
-      <Link to={"/cart-page"} className="text-xl text-yellow-900">
-        Click Here To Go Cart Page
-      </Link>
+      <Link to={"/cart-page" }  className="cartpagelink">Click Here To Go Cart Page</Link>
       <br />
       <br />
-      <Link to={"/"} className="text-xl text-yellow-900">
-        Click Here To Go Home
-      </Link>
+      <Link to={"/" } className="homelink">Click Here to go Home page</Link>
       <br />
       <br />
       <Footer />

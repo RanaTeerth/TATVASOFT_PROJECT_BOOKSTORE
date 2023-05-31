@@ -2,23 +2,21 @@ import React from "react";
 import Footer from "../Components/Footer";
 import Header from "../Components/Header";
 import { Link } from "react-router-dom";
+import { addIcon } from "../assets/images";
 function Home() {
   return (
-    <div className="text-center">
+    <div className="home">
       <Header />
-      <p className="font-sans  font-bold text-2xl text-blue-300">
+      <p >
         Welcome to Home Page
       </p>
-      <hr />
       <br />
-      <Link to={"/login"} className="text-xl text-blue-300">
-        Click Here To Login
-      </Link>
+      <img src={addIcon}/>
+      <br /><br />
+      <Link to={"/login"}className="loginlink">Click Here To Login</Link>
       <br />
       <br />
-      <Link to={"/register"} className="text-xl text-blue-300">
-        Click Here To Register
-      </Link>
+      <Link to={"/register" }>Click Here To Register</Link>
       <br />
       <br />
       <Footer />

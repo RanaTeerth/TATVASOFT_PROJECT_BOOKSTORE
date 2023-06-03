@@ -1,20 +1,29 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Footer from "../Components/Footer";
-import Header from "../Components/Header";
+import Searchbar from "../Components/Searchbar";
 function CartPage() {
   return (
+    <>
     <div className="cartpage">
-      <Header />
-      <p>
+      <br /><br /><br /><br />
+      <center>
+      <p className="cart">
+      
         This is Cart Page
       </p>
+      </center>
       <br />
-      <Link to={"/"} className="homelink">Click Here to Go Home page</Link>
+      <br />
+      <Link to={"/"}>
+        Click Here To Go Home
+      </Link>
       <br />
       <br />
+      
       <Footer />
     </div>
+    </>
   );
 }
 

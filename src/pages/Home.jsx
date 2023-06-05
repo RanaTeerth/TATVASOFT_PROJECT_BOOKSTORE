@@ -1,4 +1,3 @@
-import Footer from "../Components/Footer";
 import { Link } from "react-router-dom";
 function Home() {
   return (
@@ -20,7 +19,6 @@ function Home() {
       <br />
       <br />
 
-      <Footer />
     </div>
   );
 }

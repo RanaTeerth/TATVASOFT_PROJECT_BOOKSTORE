@@ -1,7 +1,6 @@
 import { Autocomplete, TextField } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
-import Footer from "../Components/Footer";
 function CartPage() {
   const top100Films = [
     { title: "The Shawshank Redemption", year: 1994 },
@@ -154,7 +153,6 @@ function CartPage() {
       </Link>
       <br />
       <br />
-      <Footer />
     </div>
   );
 }

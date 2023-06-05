@@ -1,3 +1,7 @@
+import React, { useEffect, useState } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Formik } from "formik";
+import * as Yup from "yup";
 import {
   Breadcrumbs,
   Button,
@@ -9,74 +13,92 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
-import { Link } from "react-router-dom";
-import Footer from "../Components/Footer";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { Formik } from "formik";
-import * as Yup from "yup";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
+import userService from "../service/userService";
+import authService from "../service/authService";
+
 function handleClick(event) {
   // event.preventDefault();
   console.log("Clicked");
 }
 
 function Register() {
+  const navigate = useNavigate();
   const breadcrumbs = [
-    <Link
-      to={"/"}
-      underline="hover"
-      key="1"
-      color="inherit"
-      href="/"
-      onClick={handleClick}
-    >
+   
+    <Link to={"/"} underline="hover" key="1" color="inherit" href="/">
       Home
     </Link>,
 
     <Typography key="2" color="text.primary">
+    </Typography>,
+    <Typography key="2" color={{ color: "#f14d54" }}>
       Create an Account
     </Typography>,
   ];
   const initialValues = {
-    firstname: "",
-    lastname: "",
+    firstName: "",
+    lastName: "",
     email: "",
+    roleId: "",
     password: "",
-    conformpassword: "",
+    confirmPassword: "",
   };
   const validate = Yup.object().shape({
-    firstname: Yup.string()
+    firstName: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
       .required("Required"),
     lastname: Yup.string()
+      .required("FirstName is Required"),
+    lastName: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
       .required("Required"),
     email: Yup.string().email("Invalid email").required("Required"),
     password: Yup.string().required("Required"),
     conformpassword: Yup.string()
+      .required("LastName is Required"),
+    email: Yup.string().email("Invalid email").required("Email is Required"),
+    password: Yup.string().required("Password must Required"),
+    confirmPassword: Yup.string()
       .oneOf([Yup.ref("password"), null], "Passwords must match")
       .required("Required"),
+    roleId: Yup.string().required("Role is required"),
   });
-  return (
-    <div className="text-center">
-    <div className="">
-      <p className="text-black  font-sans mt-12">Home - Crete Account</p>
-      <p className="text-black text-4xl font-bold  mt-12">
-        login or Create an Account
-      </p>
-      
-      <div className="flex-row justify-between space-x-7 mb-14">
-        <Link to={"/"} className="text-xl text-purple-600">
-          Click Here To Go Home
-        </Link>
-        &nbsp;
-        &nbsp;
 
-        <Link to={"/product-page"} className="text-xl text-purple-600">
-          Click Here To Go Product Page
-        </Link>
+  const onSubmit = (values) => {
+    delete values.confirmPassword;
+    // alert(JSON.stringify(values));
+    authService
+      .create(values)
+      .then((res) => {
+        toast.success("Succesfully Registered");
+        navigate("/login");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const [roleList, setRoleList] = useState([]);
+
+  const getRoles = () => {
+    userService.getAllRoles().then((res) => {
+      setRoleList(res);
+    });
+  };
+
+  useEffect(() => {
+    getRoles();
+  }, []);
+
+  return (
+    <div className="">
+      <ToastContainer />
       <Breadcrumbs
         separator={<NavigateNextIcon fontSize="small" />}
         aria-label="breadcrumb"
@@ -122,6 +144,7 @@ function Register() {
           console.log(values);
 
         }}
+        onSubmit={onSubmit}
       >
         {({
           values,
@@ -139,26 +162,33 @@ function Register() {
                 <TextField
                   size="small"
                   type="text"
-                  name="firstname"
+                  name="firstName"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.firstname}
+                  value={values.firstName}
                   sx={{ height: "40px" }}
                 />
                 {errors.firstname && touched.firstname && errors.firstname}
+                <div className="text-red-600">
+                  {errors.firstName && touched.firstName && errors.firstName}
+                </div>
               </FormControl>
               <FormControl fullWidth>
                 <label>Last Name*</label>
                 <TextField
                   size="small"
                   type="text"
-                  name="lastname"
+                  name="lastName"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.lastname}
+                  value={values.lastName}
                   sx={{ height: "40px" }}
                 />
                 {errors.lastname && touched.lastname && errors.lastname}
+                <div className="text-red-600">
+                  {errors.lastName && touched.lastName && errors.lastName}
+                </div>
               </FormControl>
 
               <FormControl fullWidth>
@@ -173,6 +203,9 @@ function Register() {
                   sx={{ height: "40px" }}
                 />
                 {errors.email && touched.email && errors.email}
+                <div className="text-red-600">
+                  {errors.email && touched.email && errors.email}
+                </div>
               </FormControl>
               <FormControl fullWidth>
                 <label>Roles*</label>
@@ -180,7 +213,28 @@ function Register() {
                   <MenuItem value={10}>1</MenuItem>
                   <MenuItem value={20}>2</MenuItem>
                   <MenuItem value={30}>3</MenuItem>
+                <label htmlFor="roleId">Role*</label>
                 </Select>
+                <Select
+                  id="roleId"
+                  name="roleId"
+                  label="RoleId"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.roleId}
+                  error={errors.roleId && touched.roleId}
+                  size="small"
+                >
+                  {roleList.length > 0 &&
+                    roleList.map((role) => (
+                      <MenuItem value={role.id} key={"name" + role.id}>
+                        {role.name}
+                      </MenuItem>
+                    ))}
+                </Select>
+                <div className="text-red-600">
+                  {errors.roleId && touched.roleId && errors.roleId}
+                </div>
               </FormControl>
             </div>
             <Typography variant="h6" sx={{ marginTop: "70px" }}>
@@ -199,20 +253,28 @@ function Register() {
                   value={values.password}
                 />
                 {errors.password && touched.password && errors.password}
+                <div className="text-red-600">
+                  {errors.password && touched.password && errors.password}
+                </div>
               </FormControl>
               <FormControl fullWidth>
                 <label>Password*</label>
                 <TextField
-                  type="conformpassword"
-                  name="conformpassword"
+                  type="confirmPassword"
+                  name="confirmPassword"
                   size="small"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.conformpassword}
+                  value={values.confirmPassword}
                 />
                 {errors.conformpassword &&
                   touched.conformpassword &&
                   errors.conformpassword}
+                <div className="text-red-600">
+                  {errors.confirmPassword &&
+                    touched.confirmPassword &&
+                    errors.confirmPassword}
+                </div>
               </FormControl>
             </div>
 
@@ -234,9 +296,6 @@ function Register() {
           </form>
         )}
       </Formik>
-      <Footer />
-    </div>
-    </div>
     </div>
   );
 }

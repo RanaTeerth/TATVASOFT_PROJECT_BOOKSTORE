@@ -15,7 +15,6 @@ function Header() {
         <div className="mr-40  space-x-1 flex">
           <Button
             variant="text"
-            sx={{ color: "#f14d54" }}
             sx={{
               color: "#f14d54",
               textTransform: "capitalize",
@@ -35,7 +34,6 @@ function Header() {
           />
           <Button
             variant="text"
-            sx={{ color: "#f14d54" }}
             sx={{ color: "#f14d54", textTransform: "capitalize" }}
             onClick={() => {
               navigate("/register");
@@ -45,7 +43,6 @@ function Header() {
           </Button>
           <Button
             variant="outlined"
-            sx={{ color: "#f14d54", borderColor: "#f14d54" }}
             sx={{
               color: "#f14d54",
               borderColor: "#f14d54",

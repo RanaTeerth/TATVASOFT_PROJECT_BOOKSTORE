@@ -12,7 +12,6 @@ export default function Searchbar() {
         variant="outlined"
         type={"text"}
         className="my-5 "
-        sx={{ width: "422px" }}
         variant="outlined"
         size="small"
         sx={{ width: "422px", backgroundColor: "white" }}

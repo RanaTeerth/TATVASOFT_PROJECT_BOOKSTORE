@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
-import Footer from "../Components/Footer";
 function ProductPage() {
   const rows = [
     createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
@@ -69,7 +68,6 @@ function ProductPage() {
       </Link>
       <br />
       <br />
-      <Footer />
     </div>
   );
 }

@@ -1,7 +1,3 @@
-import React, { useEffect, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { Formik } from "formik";
-import * as Yup from "yup";
 import {
   Breadcrumbs,
   Button,
@@ -13,29 +9,22 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import Footer from "../Components/Footer";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import userService from "../service/user.service";
+import authService from "../service/auth.service";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-
-import userService from "../service/userService";
-import authService from "../service/authService";
-
-function handleClick(event) {
-  // event.preventDefault();
-  console.log("Clicked");
-}
-
 function Register() {
   const navigate = useNavigate();
   const breadcrumbs = [
-   
     <Link to={"/"} underline="hover" key="1" color="inherit" href="/">
       Home
     </Link>,
-
-    <Typography key="2" color="text.primary">
-    </Typography>,
     <Typography key="2" color={{ color: "#f14d54" }}>
       Create an Account
     </Typography>,
@@ -52,16 +41,10 @@ function Register() {
     firstName: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
-      .required("Required"),
-    lastname: Yup.string()
       .required("FirstName is Required"),
     lastName: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
-      .required("Required"),
-    email: Yup.string().email("Invalid email").required("Required"),
-    password: Yup.string().required("Required"),
-    conformpassword: Yup.string()
       .required("LastName is Required"),
     email: Yup.string().email("Invalid email").required("Email is Required"),
     password: Yup.string().required("Password must Required"),
@@ -70,7 +53,6 @@ function Register() {
       .required("Required"),
     roleId: Yup.string().required("Role is required"),
   });
-
   const onSubmit = (values) => {
     delete values.confirmPassword;
     // alert(JSON.stringify(values));
@@ -90,15 +72,24 @@ function Register() {
     userService.getAllRoles().then((res) => {
       setRoleList(res);
     });
+    userService
+      .getAllRoles()
+      .then((res) => {
+        setRoleList(res);
+      })
+      .catch();
   };
 
   useEffect(() => {
     getRoles();
   }, []);
 
+  console.log(roleList);
   return (
+    <>
     <div className="">
       <ToastContainer />
+      
       <Breadcrumbs
         separator={<NavigateNextIcon fontSize="small" />}
         aria-label="breadcrumb"
@@ -140,10 +131,6 @@ function Register() {
       <Formik
         initialValues={initialValues}
         validationSchema={validate}
-        onSubmit={(values) => {
-          console.log(values);
-
-        }}
         onSubmit={onSubmit}
       >
         {({
@@ -157,6 +144,7 @@ function Register() {
         }) => (
           <form onSubmit={handleSubmit} className="flex-1 ml-40 mr-40">
             <div className="grid grid-cols-2 gap-5 mt-5 ">
+            <div className="grid grid-cols-2 gap-20 mt-5 ">
               <FormControl fullWidth>
                 <label>First Name*</label>
                 <TextField
@@ -165,11 +153,9 @@ function Register() {
                   name="firstName"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.firstname}
                   value={values.firstName}
                   sx={{ height: "40px" }}
                 />
-                {errors.firstname && touched.firstname && errors.firstname}
                 <div className="text-red-600">
                   {errors.firstName && touched.firstName && errors.firstName}
                 </div>
@@ -185,12 +171,10 @@ function Register() {
                   value={values.lastName}
                   sx={{ height: "40px" }}
                 />
-                {errors.lastname && touched.lastname && errors.lastname}
                 <div className="text-red-600">
                   {errors.lastName && touched.lastName && errors.lastName}
                 </div>
               </FormControl>
-
               <FormControl fullWidth>
                 <label>Email Address*</label>
                 <TextField
@@ -202,19 +186,12 @@ function Register() {
                   value={values.email}
                   sx={{ height: "40px" }}
                 />
-                {errors.email && touched.email && errors.email}
                 <div className="text-red-600">
                   {errors.email && touched.email && errors.email}
                 </div>
               </FormControl>
               <FormControl fullWidth>
-                <label>Roles*</label>
-                <Select label="Roles" onChange={handleChange} size="small">
-                  <MenuItem value={10}>1</MenuItem>
-                  <MenuItem value={20}>2</MenuItem>
-                  <MenuItem value={30}>3</MenuItem>
                 <label htmlFor="roleId">Role*</label>
-                </Select>
                 <Select
                   id="roleId"
                   name="roleId"
@@ -242,6 +219,7 @@ function Register() {
             </Typography>
             <Divider />
             <div className="flex space-x-8 mt-10">
+            <div className="grid grid-cols-2 gap-20 mt-5 ">
               <FormControl fullWidth>
                 <label>Password*</label>
                 <TextField
@@ -252,13 +230,13 @@ function Register() {
                   onBlur={handleBlur}
                   value={values.password}
                 />
-                {errors.password && touched.password && errors.password}
                 <div className="text-red-600">
                   {errors.password && touched.password && errors.password}
                 </div>
               </FormControl>
               <FormControl fullWidth>
                 <label>Password*</label>
+                <label>Confirm Password*</label>
                 <TextField
                   type="confirmPassword"
                   name="confirmPassword"
@@ -267,9 +245,6 @@ function Register() {
                   onBlur={handleBlur}
                   value={values.confirmPassword}
                 />
-                {errors.conformpassword &&
-                  touched.conformpassword &&
-                  errors.conformpassword}
                 <div className="text-red-600">
                   {errors.confirmPassword &&
                     touched.confirmPassword &&
@@ -277,7 +252,6 @@ function Register() {
                 </div>
               </FormControl>
             </div>
-
             <Button
               variant="contained"
               type="submit"
@@ -293,10 +267,15 @@ function Register() {
             >
               Submit
             </Button>
+            </div>
+            </div>
           </form>
         )}
       </Formik>
+      <Footer />
     </div>
+    </>
+
   );
 }
 export default Register;

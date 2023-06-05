@@ -1,55 +1,60 @@
-import { Breadcrumbs, Button, Divider, Typography } from "@mui/material";
+import {
+  Breadcrumbs,
+  Button,
+  Divider,
+  FormControl,
+  Typography,
+} from "@mui/material";
 import React from "react";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import Footer from "../Components/Footer";
 import { TextField } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import authService from "../service/auth.service";
+import { toast, ToastContainer } from "react-toastify";
 
 function Login() {
+  const navigate = useNavigate();
+  const initialValues = {
+    email: "",
+    password: "",
+  };
+  const validate = Yup.object().shape({
+    email: Yup.string().email("Invalid email").required("Email is Required"),
+    password: Yup.string()
+      .min(5, "Password must be 5 charaters at minimum")
+      .required("Password must Required"),
+  });
+
+  const onSubmit = (values) => {
+    // alert(JSON.stringify(values));
+    authService
+      .login(values)
+      .then((res) => {
+        delete res._id;
+        delete res.__v;
+        setTimeout(() => {
+          toast.success("successfully logged in");
+        }, 3000);
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const breadcrumbs = [
     <Link to={"/"} underline="hover" key="1" color="inherit" href="/">
       Home
     </Link>,
-
     <Typography key="2" color={{ color: "#f14d54" }}>
       Login
     </Typography>,
   ];
   return (
-    <>
-    <div className="text-center flex-1 ">
     <div className="flex-1 ">
-      <p className="font-sans text-center font-bold text-2xl text-purple-600 my-7">
-        Here is The Login Page
-      </p>
-      <hr /> <br />
-      <br />
-      <TextField
-        id="outlined-basic"
-        label="Enter your Email"
-        variant="outlined"
-        type={"email"}
-      />
-      <br />
-      <br />
-      <TextField
-        id="outlined-basic"
-        label="Enter your Password"
-        variant="outlined"
-        type={"password"}
-      />
-      <br />
-      <br />
-      <Button variant="contained">Login</Button>
-      <br />
-      <br />
-      <div className="flex-row justify-between space-x-7 mb-14">
-        <Link to={"/"} className="text-xl text-purple-600">
-          Click Here To Go Home
-        </Link>
-        <Link to={"/product-page"} className="text-xl text-purple-600">
-          Click Here To Go Product Page
-        </Link>
+      <ToastContainer />
       <Breadcrumbs
         separator={<NavigateNextIcon fontSize="small" />}
         aria-label="breadcrumb"
@@ -86,8 +91,31 @@ function Login() {
           />
           <Typography variant="body2" sx={{ marginTop: "20px" }}>
             Reagine
+            Registeration is free and easy.
           </Typography>
-        </div>
+
+          <ul className="list-disc mt-5 ml-5">
+            <li>Faster Checkout</li>
+            <li>Save Multiple shipping addresses</li>
+            <li>View and track orders and more</li>
+          </ul>
+          <Button
+            variant="contained"
+            sx={{
+              color: "white",
+              backgroundColor: "#f14d54",
+              "&:hover": {
+                backgroundColor: "#f14d54", // Change the hover background color
+              },
+              textTransform: "capitalize",
+              marginTop: "165px",
+            }}
+            onClick={() => {
+              navigate("/register");
+            }}
+          >
+            Create an Account
+          </Button>
         </div>
         <div>
           <Typography variant="h6">Ragistered Customers</Typography>
@@ -99,16 +127,75 @@ function Login() {
           />
           <Typography variant="body2" sx={{ marginTop: "20px" }}>
             Please enter the following information to create your account
+            If you have account with us,please log in.
           </Typography>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validate}
+            onSubmit={onSubmit}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
+            }) => (
+              <form onSubmit={handleSubmit} className="">
+                <FormControl fullWidth sx={{ marginTop: "20px" }}>
+                  <label>Email Address*</label>
+                  <TextField
+                    size="small"
+                    type="email"
+                    name="email"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.email}
+                    sx={{ width: "357px" }}
+                  />
+                  <div className="text-red-600">
+                    {errors.email && touched.email && errors.email}
+                  </div>
+                </FormControl>
+                <FormControl fullWidth sx={{ marginTop: "40px" }}>
+                  <label>Password*</label>
+                  <TextField
+                    type="password"
+                    name="password"
+                    size="small"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.password}
+                    sx={{ width: "357px" }}
+                  />
+                  <div className="text-red-600">
+                    {errors.password && touched.password && errors.password}
+                  </div>
+                </FormControl>
+                <Button
+                  variant="contained"
+                  type="submit"
+                  disabled={isSubmitting}
+                  sx={{
+                    color: "white",
+                    backgroundColor: "#f14d54",
+                    "&:hover": {
+                      backgroundColor: "#f14d54", // Change the hover background color
+                    },
+                    marginTop: "60px",
+                  }}
+                >
+                  Submit
+                </Button>
+              </form>
+            )}
+          </Formik>
         </div>
       </div>
-      <br />
-      <br />
+      <Footer />
     </div>
-    </div>
-      </>
-
-    
   );
 }
 export default Login;

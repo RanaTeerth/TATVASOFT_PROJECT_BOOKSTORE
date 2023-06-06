@@ -1,20 +1,21 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useAuthContext } from "./context/auth";
-import CartPage from "./pages/CartPage";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import UpdateProfile from "./pages/UpdateProfile";
-import Register from "./pages/Register";
-import Book from "./pages/Book/Book";
-import AddBook from "./pages/Book/AddBook";
-import EditUser from "./pages/User/EditUser";
-import User from "./pages/User/User";
-import Categories from "./pages/Categories";
-import AddCategories from "./pages/Categories/AddCategories";
+import Home from "./Pages/Home";
+import Login from "./Pages/Login";
+import UpdateProfile from "./Pages/UpdateProfile";
+import Register from "./Pages/Register";
+import Book from "./Pages/Book/Book";
+import AddBook from "./Pages/Book/AddBook";
+import EditUser from "./Pages/User/EditUser";
+import User from "./Pages/User/User";
+import Categories from "./Pages/Categories/Categories";
+import AddCategories from "./Pages/Categories/AddCategories";
+import Cart from "./Pages/Cart";
 
 function MyNavigation() {
   const authContext = useAuthContext();
+
   const Redirect = <Navigate to={"/login"} />;
   return (
     <Routes>
@@ -28,8 +29,7 @@ function MyNavigation() {
         path="/update-profile"
         element={authContext.user.id ? <UpdateProfile /> : Redirect}
       />
-     {/* <Route path="/book" element={authContext.user.id ? <Book /> : Redirect} />
-*/}
+
       <Route path="/user" element={authContext.user.id ? <User /> : Redirect} />
       <Route
         path="/edit-user/:id"
@@ -59,9 +59,14 @@ function MyNavigation() {
       />
       <Route
         path="/cart-page"
-        element={authContext.user.id ? <CartPage /> : Redirect}
+        element={authContext.user.id ? <Cart /> : Redirect}
       />
     </Routes>
   );
 }
+
 export default MyNavigation;
+// [10:26] Keval Dhol
+//     Admin:
+// Email: admin@tatvasoft.com
+// Password: admin@123

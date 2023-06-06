@@ -7,8 +7,10 @@ import {
 } from "@mui/material";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+
 import { TextField } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+
 import { Formik } from "formik";
 import * as Yup from "yup";
 import authService from "../service/auth.service";
@@ -29,6 +31,7 @@ function Login() {
       .min(5, "Password must be 5 charaters at minimum")
       .required("Password must Required"),
   });
+
   const onSubmit = (values) => {
     // alert(JSON.stringify(values));
     authService
@@ -36,9 +39,6 @@ function Login() {
       .then((res) => {
         delete res._id;
         delete res.__v;
-        setTimeout(() => {
-          toast.success("successfully logged in");
-        }, 2000);
         authContext.setUser(res);
         navigate("/");
         toast.success("successfully logged in");
@@ -51,6 +51,7 @@ function Login() {
     <Link to={"/"} underline="hover" key="1" color="inherit" href="/">
       Home
     </Link>,
+
     <Typography key="2" color={{ color: "#f14d54" }}>
       Login
     </Typography>,
@@ -58,6 +59,7 @@ function Login() {
   return (
     <div className="flex-1 ">
       <ToastContainer />
+
       <Breadcrumbs
         separator={<NavigateNextIcon fontSize="small" />}
         aria-label="breadcrumb"
@@ -95,6 +97,7 @@ function Login() {
           <Typography variant="body2" sx={{ marginTop: "20px" }}>
             Registeration is free and easy.
           </Typography>
+
           <ul className="list-disc mt-5 ml-5">
             <li>Faster Checkout</li>
             <li>Save Multiple shipping addresses</li>
@@ -196,4 +199,5 @@ function Login() {
     </div>
   );
 }
+
 export default Login;

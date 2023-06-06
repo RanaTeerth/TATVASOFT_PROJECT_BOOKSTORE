@@ -13,12 +13,15 @@ const intialUserValue = {
   role: "",
   roleId: 0,
 };
+
 const initialState = {
   setUser: () => {},
   user: intialUserValue,
   signOut: () => {},
 };
+
 const authContext = createContext(initialState);
+
 export const AuthWarpper = ({ children }) => {
   const [user, _setUser] = useState(intialUserValue);
   const navigate = useNavigate();
@@ -32,13 +35,13 @@ export const AuthWarpper = ({ children }) => {
     if (!str.id) {
       navigate("/login");
     }
+    // eslint-disable-next-line
   }, []);
-  
+
   useEffect(() => {
     if (pathname === "/login" && user.id) {
       navigate("/");
     }
-   
     if (!user.id) {
       return;
     }
@@ -48,22 +51,26 @@ export const AuthWarpper = ({ children }) => {
       navigate("/");
       return;
     }
+    // eslint-disable-next-line
   }, [user, pathname]);
 
   const setUser = (user) => {
     localStorage.setItem("user", JSON.stringify(user));
     _setUser(user);
   };
+
   const signOut = () => {
     setUser(intialUserValue);
     localStorage.removeItem("user");
     navigate("/login");
   };
+
   const value = {
     user,
     setUser,
     signOut,
   };
+
   return <authContext.Provider value={value}>{children}</authContext.Provider>;
 };
 export const useAuthContext = () => {

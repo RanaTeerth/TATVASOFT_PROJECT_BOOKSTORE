@@ -1,24 +1,28 @@
-import { Button, Divider, Link, ListItem } from "@mui/material";
+import { Button, Divider } from "@mui/material";
 import React, { useMemo } from "react";
-
-import logo from "../assets/tatvasoft.jpg";
+import logo from "../assets/logo.jpg";
 import { HiShoppingCart } from "react-icons/hi";
-
 import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "../context/auth";
+
 import shared from "../utils/shared";
+
+import { useAuthContext } from "../context/auth";
+import { useCartContext } from "../context/cart";
 const Header = () => {
   const navigate = useNavigate();
   const authContext = useAuthContext();
+  const cartContext = useCartContext();
   const logOut = () => {
     authContext.signOut();
   };
+
   const items = useMemo(() => {
     return shared.NavigationItems.filter(
       (item) =>
         !item.access.length || item.access.includes(authContext.user.roleId)
     );
   }, [authContext.user]);
+
   return (
     <>
       <div className="flex justify-between items-center bg-white border-t-8 border-[#f14d54]">
@@ -56,7 +60,6 @@ const Header = () => {
             </>
           )}
           {items.map((item, index) => (
-            
             <>
               <Button
                 key={index}
@@ -85,19 +88,28 @@ const Header = () => {
               color: "#f14d54",
               borderColor: "#f14d54",
               textTransform: "capitalize",
+              fontWeight: "bold",
             }}
             startIcon={<HiShoppingCart />}
             onClick={() => {
               navigate("/cart-page");
             }}
           >
-            {0} cart
+            {cartContext.cartData.length}
+            <span
+              style={{
+                color: "black",
+                marginLeft: "4px",
+                fontWeight: "normal",
+              }}
+            >
+              cart
+            </span>
           </Button>
           {!!authContext.user.id ? (
             <Button
               variant="contained"
               sx={{
-                // color: "black",
                 backgroundColor: "#f14d54",
                 "&:hover": {
                   backgroundColor: "#f14d54", // Change the hover background color
@@ -115,7 +127,6 @@ const Header = () => {
       </div>
     </>
   );
-
 };
 
 export default Header;

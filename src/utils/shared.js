@@ -1,4 +1,23 @@
+import cartService from "../service/cart.service";
 import { Role } from "./enum";
+
+const addToCart = async (book, id) => {
+  return cartService
+    .add({
+      userId: id,
+      bookId: book.id,
+      quantity: 1,
+    })
+    .then((res) => {
+      return { error: false, message: "Item added in cart" };
+    })
+    .catch((e) => {
+      // if (e.status === 500) {
+      //   return { error: true, message: "Item already in the cart" };
+      // } else return { error: true, message: "something went wrong" };
+    });
+};
+
 const messages = {
   USER_DELETE: "are you sure you want to delete the user?",
   UPDATED_SUCCESS: "Record updated successfully",
@@ -7,9 +26,11 @@ const messages = {
   DELETE_FAIL: "Record cannot be deleted",
   ORDER_SUCCESS: "Your order is successfully placed",
 };
+
 const LocalStorageKeys = {
   USER: "user",
 };
+
 const NavigationItems = [
   {
     name: "Users",
@@ -32,6 +53,7 @@ const NavigationItems = [
     access: [Role.Admin, Role.Buyer, Role.Seller],
   },
 ];
+
 const hasAccess = (pathname, user) => {
   const navItem = NavigationItems.find((navItem) =>
     pathname.includes(navItem.route)
@@ -44,9 +66,9 @@ const hasAccess = (pathname, user) => {
   }
   return true;
 };
-
 // eslint-disable-next-line
 export default {
+  addToCart,
   messages,
   hasAccess,
   NavigationItems,

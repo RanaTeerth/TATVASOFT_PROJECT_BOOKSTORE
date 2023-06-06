@@ -1,1 +1,1 @@
-export const tatvasoft = require("./tatvasoft.jpg").default;
+export const logo = require("./logo.jpg").default;

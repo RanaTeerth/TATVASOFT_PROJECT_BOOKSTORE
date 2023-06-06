@@ -1,31 +1,22 @@
-import { MenuItem } from "@mui/base";
-import {
-  Button,
-  FormControl,
-  Grid,
-  InputLabel,
-  Pagination,
-  Select,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { useAuthContext } from "../context/auth";
+import { Button, Pagination, TextField, Typography } from "@mui/material";
 import React, { useMemo, useState } from "react";
 
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 import { defaultFilter } from "../Constant/constant";
+import { useAuthContext } from "../context/auth";
+import { useCartContext } from "../context/cart";
 
 import bookService from "../service/book.service";
 import categoryService from "../service/category.service";
+import shared from "../utils/shared";
 
 function Home() {
- // const [filters, setFilters] = useState([]);
-//const [bookResonse, setBookResonse] = useState({  
-  
- 
   const [filters, setFilters] = useState(defaultFilter);
   const [categories, setCategories] = useState([]);
   const [sortBy, setSortBy] = useState();
+  const authContext = useAuthContext();
+  const cartContext = useCartContext();
   const [bookResponse, setBookResponse] = useState({
     pageIndex: 0,
     pageSize: 10,
@@ -34,7 +25,6 @@ function Home() {
     totalItems: 0,
   });
 
-  const authContext = useAuthContext();
   useEffect(() => {
     getAllCategories();
   }, []);
@@ -83,30 +73,26 @@ function Home() {
     if (e.target.value === "z-a") {
       bookList.sort((a, b) => b.name.localeCompare(a.name));
     }
-    // bookList = bookList.sort((a, b) => {
-    //   if (a.name < b.name) {
-    //     return e.target.value === "a-z" ? -1 : 1;
-    //   }
-    //   if (a.name > b.name) {
-    //     console.log(e.target.value);
-    //     return e.target.value === "z-a" ? 1 : -1;
-    //   }
-    //   return 0;
-    // });
-    // console.log("book Response : ", bookList);
     setBookResponse({ ...bookResponse, items: bookList });
   };
-  // console.log("book Response : ", bookResponse);
+
+  const addToCart = (book) => {
+    shared
+      .addToCart(book, authContext.user.id)
+      .then((res) => {
+        if (res.error) {
+          toast.error(res.message);
+        } else {
+          cartContext.updateCart();
+          toast.success(res.message);
+        }
+      })
+      .catch((err) => {
+        toast.warning(err);
+      });
+  };
+
   return (
-    <div className="">
-      <Typography variant="h4">Book Listing</Typography>
-      <Grid>
-        <Grid item xs={6}>
-          <Typography>
-            Total<span> - {10} items</span>
-          </Typography>
-        </Grid>
-        <div>
     <div className="flex-1 ml-40 mr-40">
       <Typography
         variant="h4"
@@ -134,7 +120,6 @@ function Home() {
             placeholder="Search..."
             variant="outlined"
             size="small"
-            sx={{}}
             onChange={(e) => {
               setFilters({
                 ...filters,
@@ -154,12 +139,6 @@ function Home() {
             <Typography variant="subtitle1" sx={{ marginRight: "10px" }}>
               Sort By
             </Typography>
-            {/* <FormControl sx={{ width: "236px" }}>
-              <Select onChange={sortBook} value={sortBy} size="small">
-                <MenuItem value="a-z">a - z</MenuItem>
-                <MenuItem value="z-a">z - a</MenuItem>
-              </Select>
-            </FormControl> */}
 
             <select onChange={sortBook} value={sortBy}>
               <option value="a-z">a - z</option>
@@ -167,28 +146,6 @@ function Home() {
             </select>
           </div>
         </div>
-        <FormControl fullWidth>
-          <InputLabel htmlFor="select">Sort By</InputLabel>
-          <Select onChange={sortBook} value={sortBy}>
-            <MenuItem value="a-z">a - z</MenuItem>
-            <MenuItem value="z-a">z - a</MenuItem>
-          </Select>
-          
-        </FormControl>
-        </div>
-        </div>
-        </div>
-      </Grid>
-      <div>
-        <img src="../assets/logo.jpg" alt="Book image" />
-        <Typography>Book Name</Typography>
-        <span>Book Categari</span>
-        <p>desc</p>
-        <p>
-          <span>MRP{100}</span>
-        </p>
-        {/* onClick={()=>addToCart(book) */}
-        <Button>Add To Cart</Button>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-10">
         {books.map((book, index) => (
@@ -228,6 +185,7 @@ function Home() {
                   fontWeight: "bold",
                 }}
                 fullWidth
+                onClick={() => addToCart(book)}
               >
                 add to cart
               </Button>
@@ -238,8 +196,6 @@ function Home() {
 
       <div>
         <Pagination
-          count={"10"}
-          page={"1"}
           sx={{
             marginTop: "25px",
             display: "flex",
@@ -257,7 +213,7 @@ function Home() {
         />
       </div>
     </div>
-    
   );
 }
+
 export default Home;

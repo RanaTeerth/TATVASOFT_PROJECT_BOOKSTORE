@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -24,6 +25,7 @@ function Register() {
     <Link to={"/"} underline="hover" key="1" color="inherit" href="/">
       Home
     </Link>,
+
     <Typography key="2" color={{ color: "#f14d54" }}>
       Create an Account
     </Typography>,
@@ -52,13 +54,13 @@ function Register() {
       .required("Required"),
     roleId: Yup.string().required("Role is required"),
   });
+
   const onSubmit = (values) => {
     delete values.confirmPassword;
     // alert(JSON.stringify(values));
     authService
       .create(values)
       .then((res) => {
-        toast.success("Succesfully Registered");
         setTimeout(() => {
           toast.success("Succesfully Registered");
         }, 2000);
@@ -70,6 +72,7 @@ function Register() {
       });
   };
   const [roleList, setRoleList] = useState([]);
+
   const getRoles = () => {
     userService
       .getAllRoles()
@@ -80,10 +83,10 @@ function Register() {
         console.log(err);
       });
   };
+
   useEffect(() => {
     getRoles();
   }, []);
-  console.log(roleList);
 
   return (
     <div className="">
@@ -172,6 +175,7 @@ function Register() {
                   {errors.lastName && touched.lastName && errors.lastName}
                 </div>
               </FormControl>
+
               <FormControl fullWidth>
                 <label>Email Address*</label>
                 <TextField
@@ -233,7 +237,7 @@ function Register() {
               <FormControl fullWidth>
                 <label>Confirm Password*</label>
                 <TextField
-                  type="password"
+                  type="confirmPassword"
                   name="confirmPassword"
                   size="small"
                   onChange={handleChange}
@@ -247,6 +251,7 @@ function Register() {
                 </div>
               </FormControl>
             </div>
+
             <Button
               variant="contained"
               type="submit"
@@ -268,4 +273,5 @@ function Register() {
     </div>
   );
 }
+
 export default Register;

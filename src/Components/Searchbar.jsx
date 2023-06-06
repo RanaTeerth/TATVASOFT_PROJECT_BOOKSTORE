@@ -1,7 +1,13 @@
 import { Button, List, ListItem, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useAuthContext } from "../context/auth";
+import { useCartContext } from "../context/cart";
 import bookService from "../service/book.service";
+import shared from "../utils/shared";
+
 export default function Searchbar() {
   const [query, setQuery] = useState("");
   const [bookList, setBookList] = useState([]);
@@ -14,10 +20,30 @@ export default function Searchbar() {
     searchBook();
     setOpenSearchResult(true);
   };
-
+  const navigate = useNavigate();
+  const authContext = useAuthContext();
+  const cartContext = useCartContext();
+  const addToCart = (book) => {
+    if (!authContext.user.id) {
+      navigate("/login");
+      toast.error("Please login before adding books to cart");
+    } else {
+      shared
+        .addToCart(book, authContext.user.id)
+        .then((res) => {
+          if (res.error) {
+            toast.error(res.error);
+          } else {
+            toast.success("Item added in cart");
+            cartContext.updateCart();
+          }
+        })
+        .catch((err) => {
+          toast.warning(err);
+        });
+    }
+  };
   return (
-    
-    <div className="flex bg-[#efefef] h-20 items-center justify-center space-x-3">
     <div className="flex bg-[#efefef] h-20 items-center justify-center space-x-3 ">
       <div style={{ position: "relative" }}>
         <TextField
@@ -38,26 +64,22 @@ export default function Searchbar() {
           onChange={(e) => {
             setQuery(e.target.value);
           }}
-          // onBlur={() => {
-          //   setOpenSearchResult(false);
-          // }}
         />
 
         {openSearchResult && (
           <div
-            className="bg-white w-[550px] shadow-lg"
             className="bg-white w-[550px] shadow-lg absolute"
             style={{
-              position: "absolute",
+              background: "white",
+              zIndex: "9",
+              borderRadius: "4px",
               padding: "15px",
-              borderRadius: "5px",
             }}
           >
             {bookList?.length === 0 && <p>No Product Found</p>}
             <List>
               {bookList?.length > 0 &&
                 bookList.map((item, index) => (
-                  <ListItem className="flex-1" key={index}>
                   <ListItem className="flex-1 " key={index}>
                     <div className="flex  w-full ">
                       <div className="flex-1 ">
@@ -71,31 +93,26 @@ export default function Searchbar() {
                             color: "#f14d54",
                             textTransform: "capitalize",
                           }}
+                          onClick={() => addToCart(item)}
                         >
                           Add to Cart
                         </Button>
                       </div>
                     </div>
-                    
                   </ListItem>
-                </ListItem>
-                                ))}
-
-                
+                ))}
             </List>
-            
           </div>
         )}
       </div>
+
       <Button
         variant="contained"
         startIcon={<AiOutlineSearch />}
         sx={{
           color: "white",
-          backgroundColor: "#71da71",
           backgroundColor: "#80BF32",
           "&:hover": {
-            backgroundColor: "#71da71", // Change the hover background color
             backgroundColor: "#80BF32", // Change the hover background color
           },
           textTransform: "capitalize",
@@ -121,10 +138,6 @@ export default function Searchbar() {
       >
         Cancel
       </Button>
-      
-      </div>
     </div>
-    
-    
   );
 }

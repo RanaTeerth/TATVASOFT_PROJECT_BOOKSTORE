@@ -56,7 +56,6 @@ function UpdateProfile() {
   };
 
   return (
-   
     <div className="flex-1 ml-40 mr-40">
       <Typography
         variant="h4"
@@ -162,7 +161,7 @@ function UpdateProfile() {
               <FormControl fullWidth>
                 <label>Confirm Password*</label>
                 <TextField
-                  type="password"
+                  type="confirmPassword"
                   name="confirmPassword"
                   size="small"
                   onChange={handleChange}
@@ -215,4 +214,5 @@ function UpdateProfile() {
     </div>
   );
 }
+
 export default UpdateProfile;

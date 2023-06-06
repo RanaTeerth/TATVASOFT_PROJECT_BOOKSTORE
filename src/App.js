@@ -1,28 +1,38 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Footer from "./Components/Footer";
 import Header from "./Components/Header";
 import Searchbar from "./Components/Searchbar";
-import CartPage from "./Pages/CartPage";
-import Home from "./Pages/Home";
-import Login from "./Pages/Login";
-import ProductPage from "./Pages/ProductPage";
-import Register from "./Pages/Register";
+import CartPage from "./pages/CartPage";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import ProductPage from "./pages/ProductPage";
+import Register from "./pages/Register";
+import { ToastContainer } from "react-toastify";
+import { AuthWarpper, useAuthContext } from "./context/auth";
+import MyNavigation from "./Components/MyNavigation";
+
 function App() {
+  const authContext = useAuthContext();
+  const Redirect = <Navigate to={"/login"} />;
   return (
-    <>
-      <BrowserRouter>
+    <BrowserRouter>
+      <AuthWarpper>
+        <ToastContainer />
         <Header />
         <Searchbar />
         <Routes>
-          <Route path="/" Component={Home} />
-          <Route path="/login" Component={Login} />
-          <Route path="/register" Component={Register} />
-          <Route path="/product-page" Component={ProductPage} />
-          <Route path="/cart-page" Component={CartPage} />
+          {/* <Route path="/" element={authContext.user.id ? <Home /> : Redirect} /> */}
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/product-page" element={<ProductPage />} />
+          <Route path="/cart-page" element={<CartPage />} />
         </Routes>
+
+        <MyNavigation />
         <Footer />
-      </BrowserRouter>
-    </>
+      </AuthWarpper>
+    </BrowserRouter>
   );
 }
 export default App;

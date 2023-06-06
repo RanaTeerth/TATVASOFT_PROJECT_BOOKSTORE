@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -18,6 +17,7 @@ import userService from "../service/user.service";
 import authService from "../service/auth.service";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 function Register() {
   const navigate = useNavigate();
   const breadcrumbs = [
@@ -59,6 +59,10 @@ function Register() {
       .create(values)
       .then((res) => {
         toast.success("Succesfully Registered");
+        setTimeout(() => {
+          toast.success("Succesfully Registered");
+        }, 2000);
+
         navigate("/login");
       })
       .catch((err) => {
@@ -76,11 +80,11 @@ function Register() {
         console.log(err);
       });
   };
-
   useEffect(() => {
     getRoles();
   }, []);
   console.log(roleList);
+
   return (
     <div className="">
       <ToastContainer />
@@ -137,7 +141,6 @@ function Register() {
           isSubmitting,
         }) => (
           <form onSubmit={handleSubmit} className="flex-1 ml-40 mr-40">
-            <div className="grid grid-cols-2 gap-20 mt-5 ">
             <div className="grid grid-cols-2 gap-5 mt-5 ">
               <FormControl fullWidth>
                 <label>First Name*</label>
@@ -212,7 +215,6 @@ function Register() {
               Login Information
             </Typography>
             <Divider />
-            <div className="grid grid-cols-2 gap-20 mt-5 ">
             <div className="grid grid-cols-2 gap-5 mt-5 ">
               <FormControl fullWidth>
                 <label>Password*</label>
@@ -260,8 +262,6 @@ function Register() {
             >
               Submit
             </Button>
-            </div>
-            </div>
           </form>
         )}
       </Formik>

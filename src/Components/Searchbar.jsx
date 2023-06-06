@@ -2,7 +2,6 @@ import { Button, List, ListItem, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import bookService from "../service/book.service";
-
 export default function Searchbar() {
   const [query, setQuery] = useState("");
   const [bookList, setBookList] = useState([]);
@@ -17,16 +16,7 @@ export default function Searchbar() {
   };
 
   return (
-    <div className="flex bg-[#efefef] h-20 items-center justify-center space-x-4">
-      <TextField
-        hiddenLabel
-        id="filled-hidden-label-small"
-        label="What are you Looking for..."
-        type={"text"}
-        variant="outlined"
-        size="small"
-        sx={{ width: "422px", backgroundColor: "white", fontStyle: "italic" }}
-      />
+    <>
     <div
       className="flex bg-[#efefef] h-20 items-center justify-center space-x-3"
       onClick={() => {
@@ -34,6 +24,7 @@ export default function Searchbar() {
         setQuery("");
       }}
     >
+    <div className="flex bg-[#efefef] h-20 items-center justify-center space-x-3">
       <div style={{ position: "relative" }}>
         <TextField
           hiddenLabel
@@ -57,7 +48,6 @@ export default function Searchbar() {
           //   setOpenSearchResult(false);
           // }}
         />
-
         {openSearchResult && (
           <div
             className="bg-white w-[550px] shadow-lg"
@@ -95,7 +85,6 @@ export default function Searchbar() {
           </div>
         )}
       </div>
-
       <Button
         variant="contained"
         startIcon={<AiOutlineSearch />}
@@ -130,5 +119,6 @@ export default function Searchbar() {
       </Button>
     </div>
     </div>
+    </>
   );
 }

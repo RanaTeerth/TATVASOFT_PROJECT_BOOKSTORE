@@ -7,16 +7,18 @@ import {
 } from "@mui/material";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import { TextField } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-
 import { Formik } from "formik";
 import * as Yup from "yup";
 import authService from "../service/auth.service";
 import { toast, ToastContainer } from "react-toastify";
+import { useAuthContext } from "../context/auth";
+
 function Login() {
   const navigate = useNavigate();
+  const authContext = useAuthContext();
+
   const initialValues = {
     email: "",
     password: "",
@@ -36,9 +38,10 @@ function Login() {
         delete res.__v;
         setTimeout(() => {
           toast.success("successfully logged in");
-        }, 3000);
-      {/*}  }, 2000);*/}
+        }, 2000);
+        authContext.setUser(res);
         navigate("/");
+        toast.success("successfully logged in");
       })
       .catch((err) => {
         console.log(err);
@@ -55,7 +58,6 @@ function Login() {
   return (
     <div className="flex-1 ">
       <ToastContainer />
-
       <Breadcrumbs
         separator={<NavigateNextIcon fontSize="small" />}
         aria-label="breadcrumb"
@@ -175,7 +177,6 @@ function Login() {
                 <Button
                   variant="contained"
                   type="submit"
-                  disabled={isSubmitting}
                   sx={{
                     color: "white",
                     backgroundColor: "#f14d54",

@@ -233,7 +233,7 @@ function Register() {
               <FormControl fullWidth>
                 <label>Confirm Password*</label>
                 <TextField
-                  type="confirmPassword"
+                  type="password"
                   name="confirmPassword"
                   size="small"
                   onChange={handleChange}

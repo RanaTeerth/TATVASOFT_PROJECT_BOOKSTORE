@@ -1,11 +1,13 @@
 import { Button, Divider, Link, ListItem } from "@mui/material";
 import React, { useMemo } from "react";
+
 import logo from "../assets/tatvasoft.jpg";
 import { HiShoppingCart } from "react-icons/hi";
+
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/auth";
 import shared from "../utils/shared";
-function Header() {
+const Header = () => {
   const navigate = useNavigate();
   const authContext = useAuthContext();
   const logOut = () => {
@@ -17,7 +19,6 @@ function Header() {
         !item.access.length || item.access.includes(authContext.user.roleId)
     );
   }, [authContext.user]);
-
   return (
     <>
       <div className="flex justify-between items-center bg-white border-t-8 border-[#f14d54]">
@@ -55,19 +56,28 @@ function Header() {
             </>
           )}
           {items.map((item, index) => (
-            <Button
-              key={index}
-              variant="text"
-              sx={{
-                color: "#f14d54",
-                textTransform: "capitalize",
-              }}
-              onClick={() => {
-                navigate(item.route);
-              }}
-            >
-              {item.name}
-            </Button>
+            
+            <>
+              <Button
+                key={index}
+                variant="text"
+                sx={{
+                  color: "#f14d54",
+                  textTransform: "capitalize",
+                }}
+                onClick={() => {
+                  navigate(item.route);
+                }}
+              >
+                {item.name}
+              </Button>
+              <Divider
+                orientation="vertical"
+                variant="middle"
+                flexItem
+                sx={{ backgroundColor: "#f14d54" }}
+              />
+            </>
           ))}
           <Button
             variant="outlined"
@@ -105,5 +115,7 @@ function Header() {
       </div>
     </>
   );
-}
+
+};
+
 export default Header;

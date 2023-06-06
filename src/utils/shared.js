@@ -13,19 +13,15 @@ const LocalStorageKeys = {
 const NavigationItems = [
   {
     name: "Users",
-    route: "/User",
-    access: [Role.Admin, Role.Seller],
     route: "/user",
-    access: [Role.Admin],
+    access: [Role.Admin, Role.Seller],
   },
   {
     name: "Categories",
     route: "/categories",
     access: [Role.Admin, Role.Seller],
-    access: [Role.Admin],
   },
   {
-    name: "Books",
     name: "Book",
     route: "/book",
     access: [Role.Admin, Role.Seller],
@@ -44,11 +40,14 @@ const hasAccess = (pathname, user) => {
     return (
       !navItem.access ||
       !!(navItem.access && navItem.access.includes(user.roleId))
-      );
+    );
   }
   return true;
 };
+
+// eslint-disable-next-line
 export default {
+  messages,
   hasAccess,
   NavigationItems,
   LocalStorageKeys,

@@ -1,14 +1,17 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { AuthWarpper,useAuthContext } from "./context/auth";
+import { useAuthContext } from "./context/auth";
 import CartPage from "./pages/CartPage";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import ProductPage from "./pages/ProductPage";
 import UpdateProfile from "./pages/UpdateProfile";
 import Register from "./pages/Register";
-import Book from "./pages/Book";
-import AddBook from "./pages/AddBook";
+import Book from "./pages/Book/Book";
+import AddBook from "./pages/Book/AddBook";
+import EditUser from "./pages/User/EditUser";
+import User from "./pages/User/User";
+import Categories from "./pages/Categories";
+import AddCategories from "./pages/Categories/AddCategories";
 
 function MyNavigation() {
   const authContext = useAuthContext();
@@ -17,9 +20,6 @@ function MyNavigation() {
     <Routes>
       <Route path="/" element={authContext.user.id ? <Home /> : Redirect} />
       <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/product-page" element={<ProductPage />} />
-      <Route path="/cart-page" element={<CartPage />} />
       <Route
         path="/register"
         element={!authContext.user.id ? <Register /> : Redirect}
@@ -28,13 +28,33 @@ function MyNavigation() {
         path="/update-profile"
         element={authContext.user.id ? <UpdateProfile /> : Redirect}
       />
+     {/* <Route path="/book" element={authContext.user.id ? <Book /> : Redirect} />
+*/}
+      <Route path="/user" element={authContext.user.id ? <User /> : Redirect} />
+      <Route
+        path="/edit-user/:id"
+        element={authContext.user.id ? <EditUser /> : Redirect}
+      />
+      <Route
+        path="/categories"
+        element={authContext.user.id ? <Categories /> : Redirect}
+      />
+      <Route
+        path="/add-category"
+        element={authContext.user.id ? <AddCategories /> : Redirect}
+      />
+      <Route
+        path="/add-category/:id"
+        element={authContext.user.id ? <AddCategories /> : Redirect}
+      />
       <Route path="/book" element={authContext.user.id ? <Book /> : Redirect} />
       <Route
         path="/add-book"
         element={authContext.user.id ? <AddBook /> : Redirect}
       />
+
       <Route
-        path="/edit-book/:id"
+        path="/add-book/:id"
         element={authContext.user.id ? <AddBook /> : Redirect}
       />
       <Route
@@ -44,9 +64,4 @@ function MyNavigation() {
     </Routes>
   );
 }
-
 export default MyNavigation;
-// [10:26] Keval Dhol
-//     Admin:
-// Email: admin@tatvasoft.com
-// Password: admin@123

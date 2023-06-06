@@ -16,15 +16,9 @@ export default function Searchbar() {
   };
 
   return (
-    <>
-    <div
-      className="flex bg-[#efefef] h-20 items-center justify-center space-x-3"
-      onClick={() => {
-        openSearchResult && setOpenSearchResult(false);
-        setQuery("");
-      }}
-    >
+    
     <div className="flex bg-[#efefef] h-20 items-center justify-center space-x-3">
+    <div className="flex bg-[#efefef] h-20 items-center justify-center space-x-3 ">
       <div style={{ position: "relative" }}>
         <TextField
           hiddenLabel
@@ -48,9 +42,11 @@ export default function Searchbar() {
           //   setOpenSearchResult(false);
           // }}
         />
+
         {openSearchResult && (
           <div
             className="bg-white w-[550px] shadow-lg"
+            className="bg-white w-[550px] shadow-lg absolute"
             style={{
               position: "absolute",
               padding: "15px",
@@ -62,6 +58,7 @@ export default function Searchbar() {
               {bookList?.length > 0 &&
                 bookList.map((item, index) => (
                   <ListItem className="flex-1" key={index}>
+                  <ListItem className="flex-1 " key={index}>
                     <div className="flex  w-full ">
                       <div className="flex-1 ">
                         <p className="font-semibold">{item.name}</p>
@@ -79,9 +76,14 @@ export default function Searchbar() {
                         </Button>
                       </div>
                     </div>
+                    
                   </ListItem>
-                ))}
+                </ListItem>
+                                ))}
+
+                
             </List>
+            
           </div>
         )}
       </div>
@@ -91,8 +93,10 @@ export default function Searchbar() {
         sx={{
           color: "white",
           backgroundColor: "#71da71",
+          backgroundColor: "#80BF32",
           "&:hover": {
             backgroundColor: "#71da71", // Change the hover background color
+            backgroundColor: "#80BF32", // Change the hover background color
           },
           textTransform: "capitalize",
         }}
@@ -117,8 +121,10 @@ export default function Searchbar() {
       >
         Cancel
       </Button>
+      
+      </div>
     </div>
-    </div>
-    </>
+    
+    
   );
 }

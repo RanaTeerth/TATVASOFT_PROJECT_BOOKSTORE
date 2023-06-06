@@ -1,9 +1,7 @@
 import { Button, Divider, Link, ListItem } from "@mui/material";
 import React, { useMemo } from "react";
-
 import logo from "../assets/tatvasoft.jpg";
 import { HiShoppingCart } from "react-icons/hi";
-
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/auth";
 import shared from "../utils/shared";
@@ -13,45 +11,18 @@ function Header() {
   const logOut = () => {
     authContext.signOut();
   };
-
   const items = useMemo(() => {
     return shared.NavigationItems.filter(
       (item) =>
         !item.access.length || item.access.includes(authContext.user.roleId)
     );
   }, [authContext.user]);
+
   return (
     <>
       <div className="flex justify-between items-center bg-white border-t-8 border-[#f14d54]">
         <img src={logo} alt="TatvaSoft_Logo" className="h-24 ml-40 w-44" />
         <div className="mr-40  space-x-1 flex">
-          <Button
-            variant="text"
-            sx={{
-              color: "#f14d54",
-              textTransform: "capitalize",
-            }}
-            onClick={() => {
-              navigate("/login");
-            }}
-          >
-            Login
-          </Button>
-          <Divider
-            orientation="vertical"
-            variant="middle"
-            flexItem
-            sx={{ backgroundColor: "#f14d54" }}
-          />
-          <Button
-            variant="text"
-            sx={{ color: "#f14d54", textTransform: "capitalize" }}
-            onClick={() => {
-              navigate("/register");
-            }}
-          >
-            Register
-          </Button>
           {!authContext.user.id && (
             <>
               <Button
@@ -112,14 +83,10 @@ function Header() {
           >
             {0} cart
           </Button>
-       {/*   {authContext.user.id && (
-          {authContext.user.id ? (*/}
+          {!!authContext.user.id ? (
             <Button
-              variant="outlined"
               variant="contained"
               sx={{
-                color: "#f14d54",
-                borderColor: "#f14d54",
                 // color: "black",
                 backgroundColor: "#f14d54",
                 "&:hover": {
@@ -133,7 +100,6 @@ function Header() {
             >
               LogOut
             </Button>
-          )}
           ) : null}
         </div>
       </div>

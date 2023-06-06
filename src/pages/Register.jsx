@@ -3,15 +3,14 @@ import {
   Button,
   Divider,
   FormControl,
-  Input,
   MenuItem,
   Select,
   TextField,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import Footer from "../Components/Footer";
+import { Link, useNavigate } from "react-router-dom";
+
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -67,29 +66,24 @@ function Register() {
       });
   };
   const [roleList, setRoleList] = useState([]);
-
   const getRoles = () => {
-    userService.getAllRoles().then((res) => {
-      setRoleList(res);
-    });
     userService
       .getAllRoles()
       .then((res) => {
         setRoleList(res);
       })
-      .catch();
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {
     getRoles();
   }, []);
-
   console.log(roleList);
   return (
-    <>
     <div className="">
       <ToastContainer />
-      
       <Breadcrumbs
         separator={<NavigateNextIcon fontSize="small" />}
         aria-label="breadcrumb"
@@ -143,8 +137,8 @@ function Register() {
           isSubmitting,
         }) => (
           <form onSubmit={handleSubmit} className="flex-1 ml-40 mr-40">
-            <div className="grid grid-cols-2 gap-5 mt-5 ">
             <div className="grid grid-cols-2 gap-20 mt-5 ">
+            <div className="grid grid-cols-2 gap-5 mt-5 ">
               <FormControl fullWidth>
                 <label>First Name*</label>
                 <TextField
@@ -218,8 +212,8 @@ function Register() {
               Login Information
             </Typography>
             <Divider />
-            <div className="flex space-x-8 mt-10">
             <div className="grid grid-cols-2 gap-20 mt-5 ">
+            <div className="grid grid-cols-2 gap-5 mt-5 ">
               <FormControl fullWidth>
                 <label>Password*</label>
                 <TextField
@@ -235,7 +229,6 @@ function Register() {
                 </div>
               </FormControl>
               <FormControl fullWidth>
-                <label>Password*</label>
                 <label>Confirm Password*</label>
                 <TextField
                   type="confirmPassword"
@@ -272,10 +265,7 @@ function Register() {
           </form>
         )}
       </Formik>
-      <Footer />
     </div>
-    </>
-
   );
 }
 export default Register;

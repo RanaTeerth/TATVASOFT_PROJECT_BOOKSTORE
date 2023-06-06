@@ -9,6 +9,10 @@ import {
 } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
+import Footer from "../Components/Footer";
+import Header from "../Components/Header";
+import Searchbar from "../Components/Searchbar";
+
 function ProductPage() {
   const rows = [
     createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
@@ -22,16 +26,11 @@ function ProductPage() {
   }
   return (
     <div className="text-center">
-      
+      <Header />
+      <Searchbar />
       <p className="font-sans text-center font-bold text-2xl text-yellow-900">
         Product Page
       </p>
-      <hr />
-      <br />
-      <Link to={"/cart-page"} className="text-xl text-yellow-900">
-        Click Here To Go Cart Page
-      </Link>
-
       <TableContainer component={Paper} className="h-96 w-56">
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -68,6 +67,7 @@ function ProductPage() {
       </Link>
       <br />
       <br />
+      <Footer />
     </div>
   );
 }

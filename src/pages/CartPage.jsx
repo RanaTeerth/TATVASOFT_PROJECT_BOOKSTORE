@@ -1,7 +1,7 @@
 import { Autocomplete, TextField } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
-import Footer from "../Components/Footer";
+
 function CartPage() {
   const top100Films = [
     { title: "The Shawshank Redemption", year: 1994 },
@@ -136,7 +136,6 @@ function CartPage() {
         This is Cart Page
       </p>
       <hr />
-
       <Autocomplete
         id="free-solo-demo"
         freeSolo
@@ -146,14 +145,12 @@ function CartPage() {
         )}
         className="items-center justify-center w-96"
       />
-
       <br />
       <Link to={"/"} className="text-xl text-green-600">
         Click Here To Go Home
       </Link>
       <br />
       <br />
-      <Footer />
     </div>
   );
 }

@@ -7,14 +7,14 @@ import {
 } from "@mui/material";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Footer from "../Components/Footer";
+
 import { TextField } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+
 import { Formik } from "formik";
 import * as Yup from "yup";
 import authService from "../service/auth.service";
 import { toast, ToastContainer } from "react-toastify";
-
 function Login() {
   const navigate = useNavigate();
   const initialValues = {
@@ -27,7 +27,6 @@ function Login() {
       .min(5, "Password must be 5 charaters at minimum")
       .required("Password must Required"),
   });
-
   const onSubmit = (values) => {
     // alert(JSON.stringify(values));
     authService
@@ -38,6 +37,7 @@ function Login() {
         setTimeout(() => {
           toast.success("successfully logged in");
         }, 3000);
+      {/*}  }, 2000);*/}
         navigate("/");
       })
       .catch((err) => {
@@ -55,6 +55,7 @@ function Login() {
   return (
     <div className="flex-1 ">
       <ToastContainer />
+
       <Breadcrumbs
         separator={<NavigateNextIcon fontSize="small" />}
         aria-label="breadcrumb"
@@ -90,10 +91,8 @@ function Login() {
             }}
           />
           <Typography variant="body2" sx={{ marginTop: "20px" }}>
-            Reagine
             Registeration is free and easy.
           </Typography>
-
           <ul className="list-disc mt-5 ml-5">
             <li>Faster Checkout</li>
             <li>Save Multiple shipping addresses</li>
@@ -126,7 +125,6 @@ function Login() {
             }}
           />
           <Typography variant="body2" sx={{ marginTop: "20px" }}>
-            Please enter the following information to create your account
             If you have account with us,please log in.
           </Typography>
           <Formik
@@ -194,7 +192,6 @@ function Login() {
           </Formik>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

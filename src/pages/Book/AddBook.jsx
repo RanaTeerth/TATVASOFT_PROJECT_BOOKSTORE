@@ -12,8 +12,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import bookService from "../../service/book.service";
-import categoryService from "../../service/category.service";
+import bookService from "../../Service/book.service";
+import categoryService from "../../Service/category.service";
 
 function AddBook() {
   const { id } = useParams();

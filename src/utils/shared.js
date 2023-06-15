@@ -1,4 +1,4 @@
-import cartService from "../service/cart.service";
+import cartService from "../Service/cart.service";
 import { Role } from "./enum";
 
 const addToCart = async (book, id) => {

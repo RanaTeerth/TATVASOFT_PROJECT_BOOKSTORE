@@ -14,8 +14,8 @@ import { Link, useNavigate } from "react-router-dom";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import userService from "../service/user.service";
-import authService from "../service/auth.service";
+import userService from "../Service/user.service";
+import authService from "../Service/auth.service";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

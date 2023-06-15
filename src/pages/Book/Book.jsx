@@ -13,8 +13,8 @@ import {
 import React, { useEffect, useState } from "react";
 
 import { defaultFilter, RecordsPerPage } from "../../Constant/constant";
-import categoryService from "../../service/category.service";
-import bookService from "../../service/book.service";
+import categoryService from "../../Service/category.service";
+import bookService from "../../Service/book.service";
 import { useNavigate } from "react-router-dom";
 import ConfirmationDialog from "../../Components/ConfirmationDialog";
 import { toast } from "react-toastify";

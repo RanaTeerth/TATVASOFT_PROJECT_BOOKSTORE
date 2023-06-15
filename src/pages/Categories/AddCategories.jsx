@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import categoryService from "../../service/category.service";
+import categoryService from "../../Service/category.service";
 function AddCategories() {
   const { id } = useParams();
   const navigate = useNavigate();

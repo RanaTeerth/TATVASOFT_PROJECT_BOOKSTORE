@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 import { useNavigate } from "react-router-dom";
-import cartService from "../service/cart.service";
-import { useCartContext } from "../context/cart";
+import cartService from "../Service/cart.service";
+import { useCartContext } from "../Context/cart";
 import { Button, Typography } from "@mui/material";
 import shared from "../utils/shared";
-import orderService from "../service/order.service";
-import { useAuthContext } from "../context/auth";
+import orderService from "../Service/order.service";
+import { useAuthContext } from "../Context/auth";
 
 const Cart = () => {
   const authContext = useAuthContext();
@@ -227,3 +227,5 @@ const Cart = () => {
 };
 
 export default Cart;
+
+

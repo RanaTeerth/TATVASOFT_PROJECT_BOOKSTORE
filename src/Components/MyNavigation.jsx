@@ -14,6 +14,7 @@ import CartPage from "./Pages/CartPage";
 import { useSelector } from "react-redux";
 
 function MyNavigation() {
+
   const authData = useSelector((state) => state.auth.user);
   const Redirect = <Navigate to={"/login"} />;
 
@@ -30,6 +31,7 @@ function MyNavigation() {
         element={authData.id ? <UpdateProfile /> : Redirect}
       />
 
+      <Route path="/user" element={authContext.user.id ? <User /> : Redirect} />
       <Route path="/user" element={authData.id ? <User /> : Redirect} />
       <Route
         path="/edit-user/:id"
@@ -45,6 +47,7 @@ function MyNavigation() {
       />
       <Route
         path="/add-category/:id"
+      
         element={authData.id ? <AddCategories /> : Redirect}
       />
       <Route path="/book" element={authData.id ? <Book /> : Redirect} />
@@ -61,7 +64,6 @@ function MyNavigation() {
     </Routes>
   );
 }
-
 export default MyNavigation;
 // [10:26] Keval Dhol
 //     Admin:
